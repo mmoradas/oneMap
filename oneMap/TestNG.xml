@@ -2,6 +2,11 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 
 <suite name="oneMap">
+
+	<listeners>
+		<listener class-name="com.oneMap.utilities.Reporting"/>
+	</listeners>
+	
 	<test name="OneMap Test">
 		<parameter name="browser" value="chrome" />
 		<classes>

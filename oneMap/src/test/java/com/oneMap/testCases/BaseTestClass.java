@@ -15,7 +15,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 
 import com.oneMap.utilities.ReadConfig;
-import com.oneMap.utilities.Utility;
 
 public class BaseTestClass {
 	
@@ -23,16 +22,17 @@ public class BaseTestClass {
 	public ReadConfig config = new ReadConfig();
 	public String baseURL = config.getBaseURL();
 	
-	public static Logger logger;
+	public static Logger LOGGER;
 	public static WebDriver driver;
+	
 			
 	@Parameters("browser")
 	@BeforeMethod
 	public void setup(String browser) {
 		
-		logger = Logger.getLogger("oneMap");
+		LOGGER = Logger.getLogger("oneMap");
 		PropertyConfigurator.configure("log4j.properties");
-		logger.info("##### Setting Up Testcase. #####");
+		LOGGER.info("##### Setting Up Testcase. #####");
 		
 		String path = System.getProperty("user.dir")  + getDriverFilePath() + File.separator;
 		String fullPath="";
@@ -70,7 +70,7 @@ public class BaseTestClass {
 		
 		driver.manage().window().maximize();
 		driver.get(baseURL);
-		logger.info("Base URL is opened.");
+		LOGGER.info("Base URL is opened.");
 		
 		
 	}
@@ -101,11 +101,8 @@ public class BaseTestClass {
 	@AfterMethod
 	public void tearDown(ITestResult result) throws IOException {
 		
-		if(ITestResult.FAILURE == result.getStatus()) {
-			Utility.captureScreen(driver, result.getName());
-		}
-		
-		logger.info("##### Tear Down Testcase. #####");
+	
+		LOGGER.info("##### Tear Down Testcase. #####");
 		driver.quit();
 		
 	}
