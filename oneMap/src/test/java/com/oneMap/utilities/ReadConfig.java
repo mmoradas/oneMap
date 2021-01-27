@@ -57,4 +57,10 @@ public class ReadConfig {
 		return prop.getProperty("Edge_Driver_Filename");
 	}
 	
+	
+	public String getHeadlessExecutionValue() {
+		
+		return prop.getProperty("headlessExecution");
+	}
+	
 }
