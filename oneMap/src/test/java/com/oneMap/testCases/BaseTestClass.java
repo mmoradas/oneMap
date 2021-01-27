@@ -1,6 +1,7 @@
 package com.oneMap.testCases;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -8,11 +9,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 
 import com.oneMap.utilities.ReadConfig;
+import com.oneMap.utilities.Utility;
 
 public class BaseTestClass {
 	
@@ -24,7 +27,7 @@ public class BaseTestClass {
 	public static WebDriver driver;
 			
 	@Parameters("browser")
-	@BeforeClass
+	@BeforeMethod
 	public void setup(String browser) {
 		
 		logger = Logger.getLogger("oneMap");
@@ -95,12 +98,17 @@ public class BaseTestClass {
 		return pathValue;
 	}
 
-	@AfterClass
-	public void tearDown() {
+	@AfterMethod
+	public void tearDown(ITestResult result) throws IOException {
+		
+		if(ITestResult.FAILURE == result.getStatus()) {
+			Utility.captureScreen(driver, result.getName());
+		}
 		
 		logger.info("##### Tear Down Testcase. #####");
 		driver.quit();
 		
 	}
 
+	
 }
