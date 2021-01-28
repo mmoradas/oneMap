@@ -2,6 +2,7 @@ package com.oneMap.testCases;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -63,6 +64,7 @@ public class BaseTestClass {
 				FirefoxOptions ffoptions = new FirefoxOptions();
 				ffoptions.setHeadless(isSetToHeadless);
 				driver = new FirefoxDriver(ffoptions);
+
 			}
 		}
 //		else if(browser.equalsIgnoreCase("Edge")) {
@@ -79,6 +81,7 @@ public class BaseTestClass {
 			return;
 		}
 		
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 		driver.get(baseURL);
 		LOGGER.info("Base URL is opened.");
@@ -90,11 +93,6 @@ public class BaseTestClass {
 		
 		File tempFile = new File(fullPath);
 		return tempFile.exists();
-	}
-
-	public WebDriver getDriver() {
-		
-		return this.driver;
 	}
 
 	
