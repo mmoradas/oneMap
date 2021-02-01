@@ -9,9 +9,12 @@
 	
 	<test name="OneMap Test">
 		<parameter name="browser" value="Chrome" />
-		<classes>	
-			<class name="com.oneMap.testCases.SC_001_Search" />
+		<classes>
+			<class name="com.oneMap.testCases.SC_002_JourneyPlanner" />	
+			<!-- 
+			<class name="com.oneMap.testCases.SC_001_Search" />	
 			<class name="com.oneMap.testCases.SC_002_JourneyPlanner" />
+			 -->
 		</classes>
 	</test>
 </suite>

@@ -44,8 +44,9 @@ public class SearchResultPageView {
 		return textResultPostalCode.getText();
 	}
 	
-	public String getLocationPointAddress() {
+	public String getLocationPointAddress() throws InterruptedException {
 		
+		Thread.sleep(2000);
 		return pLocationPointAddress.getText();
 	}
 	

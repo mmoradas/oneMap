@@ -62,5 +62,11 @@ public class ReadConfig {
 		
 		return prop.getProperty("headlessExecution");
 	}
+
+	public String getDefaultBrowser() {
+		
+		return prop.getProperty("DefaultBrowser");
+	}
+
 	
 }

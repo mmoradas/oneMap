@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.codehaus.plexus.logging.Logger;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
@@ -41,6 +42,7 @@ public class Reporting extends TestListenerAdapter{
 		htmlReporter.config().setReportName("Functional Test Automation Project");
 		htmlReporter.config().setTestViewChartLocation(ChartLocation.TOP);
 		htmlReporter.config().setTheme(Theme.STANDARD);
+		
 		
 	}
 	

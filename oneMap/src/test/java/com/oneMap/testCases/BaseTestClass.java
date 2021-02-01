@@ -2,6 +2,7 @@ package com.oneMap.testCases;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
@@ -12,30 +13,35 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
 import com.oneMap.utilities.ReadConfig;
 
 public class BaseTestClass {
 	
-	
 	public ReadConfig config = new ReadConfig();
 	public String baseURL = config.getBaseURL();
 	public String headlessSetting = config.getHeadlessExecutionValue();
+	public String defaultBrowser = config.getDefaultBrowser();
 	
 	public static Logger LOGGER;
 	public static WebDriver driver;
 
 	@Parameters("browser")
 	@BeforeMethod
-	public void startApplication(String browser) {
+	public void startApplication(@Optional("chrome") String browser, ITestContext testContext) {
 		
 		LOGGER = Logger.getLogger("oneMap");
 		PropertyConfigurator.configure("log4j.properties");
-		LOGGER.info("##### Setting Up Testcase. #####");
+		LOGGER.info("/******** Setting Up Testcase:" + testContext.getName() + "********/");
+		
+		System.out.println("Browser: " + browser);
 		
 		String path = System.getProperty("user.dir")  + getDriverFilePath() + File.separator;
 		String fullPath="";
@@ -81,7 +87,7 @@ public class BaseTestClass {
 			return;
 		}
 		
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 		driver.get(baseURL);
 		LOGGER.info("Base URL is opened.");
@@ -117,7 +123,7 @@ public class BaseTestClass {
 	public void tearDown(ITestResult result) throws IOException {
 		
 	
-		LOGGER.info("##### Tear Down Testcase. #####");
+		LOGGER.info("/******** Tear Down Testcase:" + result.getName() + "********/" );
 		driver.quit();
 		
 	}
