@@ -2,7 +2,6 @@ package com.oneMap.testCases;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
@@ -10,10 +9,8 @@ import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
@@ -32,6 +29,7 @@ public class BaseTestClass {
 	
 	public static Logger LOGGER;
 	public static WebDriver driver;
+	//public static ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>();
 
 	@Parameters("browser")
 	@BeforeMethod
@@ -59,7 +57,12 @@ public class BaseTestClass {
 				System.setProperty("webdriver.chrome.driver", fullPath);
 				ChromeOptions options = new ChromeOptions();
 				options.setHeadless(isSetToHeadless);
+				if(isSetToHeadless) {
+					options.addArguments("start-maximized");
+					options.addArguments("--window-size=1400,600");
+				}
 				driver = new ChromeDriver(options);
+				//driver.set(new ChromeDriver(options));
 			}
 		}
 		else if(browser.equalsIgnoreCase("Firefox")) {
@@ -69,7 +72,12 @@ public class BaseTestClass {
 				System.setProperty("webdriver.gecko.driver", fullPath);
 				FirefoxOptions ffoptions = new FirefoxOptions();
 				ffoptions.setHeadless(isSetToHeadless);
+				if(isSetToHeadless) {
+					ffoptions.addArguments("start-maximized");
+					ffoptions.addArguments("--window-size=1400,600");
+				}
 				driver = new FirefoxDriver(ffoptions);
+				//driver.set(new FirefoxDriver(ffoptions));
 
 			}
 		}

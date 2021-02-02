@@ -7,14 +7,18 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.apache.log4j.Logger;
 
-import com.mongodb.diagnostics.logging.Logger;
 import com.oneMap.utilities.Utility;
 
 
 public class JourneyPlannerPageView {
 
 	WebDriver driver;
+	public Logger LOGGER;
 	public static final String DESTINATION1 = "Destination1";
 	public static final String DESTINATION2 = "Destination2";
 	
@@ -23,7 +27,6 @@ public class JourneyPlannerPageView {
 	}
 	
 	@FindBy(xpath="//img[contains(@src,'icons_Locator.png')]") WebElement imgLocationPoint;
-	@FindBy(xpath="//p[@class='block wrap']") WebElement pLocationPointAddress;
 	@FindBy(id="postal_code") WebElement textResultPostalCode;
 	@FindBy(id="jpbtn") WebElement btnJourneyPlan;
 	@FindBy(id="addButton") WebElement btnAddDestination;
@@ -37,23 +40,26 @@ public class JourneyPlannerPageView {
 	
 	@FindBy(id="search-text-dest") WebElement inputDestination1;
 	@FindBy(id="search-text-dest2") WebElement inputDestination2;
-	@FindBy(xpath="//img[contains(@src,'icon_DestinationLoc_512.png')]") WebElement imgFinalDestinationResult;
-	@FindBy(xpath="//div[@class='destination']") WebElement divFinalDestination;
 	@FindBy(xpath="//div[@class='count']/img[contains(@src,'icon_multiroute_2.png')]") WebElement imgFirstDestinationResult;
 	@FindBy(xpath="//a[@title='Zoom out']") WebElement btnZoomOut;
 	
+	By imgFinalDestinationResult = By.xpath("//img[contains(@src,'icon_DestinationLoc_512.png')]");
+	By divFinalDestination = By.xpath("//div[@class='destination']");
+	By divSwitchDest = By.xpath("//div[@class='search-switch']");
+	By aCloseBtn = By.xpath("//a[@class='leaflet-popup-close-button']");
+	By pLocationPointAddress = By.xpath("//p[@class='block wrap']");
 	
 	
 	public void setDestinationValue(String destinationField, String value) throws InterruptedException {
 		
 		if(destinationField.equalsIgnoreCase(DESTINATION1)) {
 			inputDestination1.sendKeys(value);
-			Thread.sleep(1000);
+			Thread.sleep(2000);
 			inputDestination1.sendKeys(Keys.ENTER);
 		}
 		else if(destinationField.equalsIgnoreCase(DESTINATION2)) {
-			inputDestination2.sendKeys(value + Keys.ARROW_LEFT);
-			Thread.sleep(1000);
+			inputDestination2.sendKeys(value);
+			Thread.sleep(2000);
 			inputDestination2.sendKeys(Keys.ENTER);
 		}
 		else {
@@ -98,36 +104,71 @@ public class JourneyPlannerPageView {
 	
 	public String getFinalDestinationResult() throws InterruptedException {
 		
-		boolean isPresent = Utility.isElementFound(driver, imgFinalDestinationResult, 6);
-		int retries = 0;
-		while(!isPresent && retries < 5) {
-			btnZoomOut.click();
-			isPresent = Utility.isElementFound(driver, imgFinalDestinationResult, 6);
-			retries++;
-		}
-		
-		if(!isPresent) {
-			assertTrue(false,"Final Destionation Image is Not Found.");
-		}
+//		boolean isPresent = Utility.isElementFound(driver, imgFinalDestinationResult, 6);
+//		int retries = 0;
+//		while(!isPresent && retries < 5) {
+//			btnZoomOut.click();
+//			isPresent = Utility.isElementFound(driver, imgFinalDestinationResult, 6);
+//			retries++;
+//		}
+//		
+//		if(!isPresent) {
+//			assertTrue(false,"Final Destionation Image is Not Found.");
+//		}
 
-		imgFinalDestinationResult.click();
-		return divFinalDestination.getText();
+		
+		
+//		WebElement elem = new WebDriverWait(driver, 10).until(
+//			    ExpectedConditions.presenceOfElementLocated(imgFinalDestinationResult)
+//			);
+//		elem.click();
+		
+//		isPresent = Utility.isElementFound(driver, divFinalDestination, 6);
+//		if(!isPresent) {
+//			Thread.sleep(2000);
+//			isPresent = Utility.isElementFound(driver, divFinalDestination, 6);
+//		}
+		
+//		boolean isPresent = Utility.isElementFound(driver, aCloseBtn, 6);
+//		if (isPresent) { 
+//			driver.findElement(aCloseBtn).click();
+//		}
+		Thread.sleep(4000);
+		driver.findElement(imgFinalDestinationResult).click();
+		return driver.findElement(divFinalDestination).getText();
 		
 	}
 	
+	public void clickSwitchDestination() {
+		
+		boolean isPresent = Utility.isElementFound(driver, imgFinalDestinationResult, 6);
+		if(isPresent) {
+			driver.findElement(divSwitchDest).click();
+		}
+		else{
+			Assert.assertTrue(false,"Switch Destination button not found.");
+		}
+	}
 	
 	public boolean verifyKeyElementPresent() {
-		
 		return Utility.verifyElementIsPresent(driver, btnTransit);
 	}
 	
 	public String getResultAddress() {
-		
-		return textResultPostalCode.getText();
+		String value = textResultPostalCode.getText();
+		LOGGER.info("textResultPostalCode Text Value:" + value);
+		return value;
 	}
 	
 	public String getLocationPointAddress() {
-		
-		return pLocationPointAddress.getText();
+		String value = textResultPostalCode.getText();
+		LOGGER.info("LocationPointAddress Text Value:" + value);
+		return value;
+	}
+	
+	public String getOriginAddress() {
+		String value = driver.findElement(pLocationPointAddress).getText();
+		LOGGER.info("LocationPointAddress Text Value:" + value);
+		return value;
 	}
 }

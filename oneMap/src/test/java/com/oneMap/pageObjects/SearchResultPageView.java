@@ -50,6 +50,12 @@ public class SearchResultPageView {
 		return pLocationPointAddress.getText();
 	}
 	
+	public String getDestination1Value() throws InterruptedException {
+		
+		Thread.sleep(2000);
+		return inputDestination1.getText();
+	}
+	
 	public void clickJourneyButton() throws InterruptedException {
 		
 		if(btnJourneyPlan.isEnabled()) {

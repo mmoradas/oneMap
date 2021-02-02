@@ -25,8 +25,7 @@ public class MainPage {
 	
 	By inputSearch = By.xpath("//input[@id='search-text']");
 	
-	
-	
+
 	public void closeGuide() {
 		
 		linkCloseGuide.click();
@@ -34,21 +33,22 @@ public class MainPage {
 
 	public void searchKeyword(String keyword) throws InterruptedException {
 		
-		Thread.sleep(2000);
-		this.driver.findElement(inputSearch).sendKeys(keyword);
-		Thread.sleep(2000);
-		this.driver.findElement(inputSearch).sendKeys(Keys.ENTER);
+//		Thread.sleep(2000);
+//		this.driver.findElement(inputSearch).sendKeys(keyword);
+//		Thread.sleep(2000);
+//		this.driver.findElement(inputSearch).sendKeys(Keys.ENTER);
 		
-//		boolean isFound = Utility.isElementFound(driver, inputSearch, 10);
-//		if(isFound) {
-//			this.driver.findElement(inputSearch).click();
-//			this.driver.findElement(inputSearch).sendKeys(keyword);
-//			Thread.sleep(2000);
-//			this.driver.findElement(inputSearch).sendKeys(Keys.ENTER);
-//		}
-//		else {
-//			Assert.assertTrue(false,"Search Element is not found.");
-//		}
+		boolean isFound = Utility.isElementFound(driver, inputSearch, 10);
+		if(isFound) {
+			driver.findElement(inputSearch).click();
+			Thread.sleep(2000);
+			driver.findElement(inputSearch).sendKeys(keyword);
+			Thread.sleep(2000);
+			driver.findElement(inputSearch).sendKeys(Keys.ENTER);
+		}
+		else {
+			Assert.assertTrue(false,"Search Element is not found.");
+		}
 
 		
 	}

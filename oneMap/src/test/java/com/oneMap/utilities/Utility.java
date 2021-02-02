@@ -44,7 +44,7 @@ public class Utility {
 		
 	}
 	
-	public static boolean isElementFound(WebDriver driver, WebElement toLookFor, int timeout) {
+	public static boolean isElementFound(WebDriver driver, By locator, int timeout) {
 		
 		  FluentWait<WebDriver> wait = new FluentWait<WebDriver>(driver).withTimeout(timeout, TimeUnit.SECONDS)    
 				  .pollingEvery(2, TimeUnit.SECONDS)    
@@ -52,7 +52,7 @@ public class Utility {
 
 		  WebElement element = wait.until(new Function<WebDriver, WebElement>() {  
 				  public WebElement apply(WebDriver driver) { 
-					  return toLookFor;     
+					  return driver.findElement(locator);     
 				   }  
 		  });  
 		

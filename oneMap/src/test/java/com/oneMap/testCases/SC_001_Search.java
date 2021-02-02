@@ -2,6 +2,7 @@ package com.oneMap.testCases;
 
 import java.io.IOException;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.ITestContext;
@@ -25,16 +26,16 @@ public class SC_001_Search extends BaseTestClass{
 	}
 	
 	@Test
-	public void performKeywordSearch_TC_001(ITestContext test) throws InterruptedException, IOException {
+	public void verifyKeywordSearch_TC_001(ITestContext test) throws InterruptedException, IOException {
 
-		String testName="performKeywordSearch_TC_001";
+		String testName="verifyKeywordSearch_TC_001";
 		String keyword = excel.getData(testName, "SearchKeyWord");
 		
-		MainPage mainPage = PageFactory.initElements(driver, MainPage.class);
+		MainPage mainPage = PageFactory.initElements((WebDriver) driver, MainPage.class);
 		mainPage.closeGuide();
 		mainPage.searchKeyword(keyword);
 		
-		SearchResultPageView searchView = PageFactory.initElements(driver, SearchResultPageView.class);
+		SearchResultPageView searchView = PageFactory.initElements((WebDriver) driver, SearchResultPageView.class);
 		String resultPostalCode = searchView.getResultAddress();
 		String mapPostalCode = searchView.getLocationPointAddress();
 		
@@ -45,17 +46,17 @@ public class SC_001_Search extends BaseTestClass{
 	}
 
 	@Test
-	public void performPostalCodeSearch_TC_002() throws InterruptedException {
+	public void verifyPostalCodeSearch_TC_002() throws InterruptedException {
 
-		String testName="performPostalCodeSearch_TC_002";
+		String testName="verifyPostalCodeSearch_TC_002";
 		String PostalCode = excel.getData(testName, "PostalCode");
 		
-		MainPage mainPage = PageFactory.initElements(driver, MainPage.class);
+		MainPage mainPage = PageFactory.initElements((WebDriver) driver, MainPage.class);
 		mainPage.closeGuide();
 		
 		mainPage.searchKeyword(PostalCode);
 		
-		SearchResultPageView searchView = PageFactory.initElements(driver, SearchResultPageView.class);
+		SearchResultPageView searchView = PageFactory.initElements((WebDriver) driver, SearchResultPageView.class);
 		String resultPostalCode = searchView.getResultAddress();
 		String mapPostalCode = searchView.getLocationPointAddress();
 		
